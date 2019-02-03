@@ -1,0 +1,116 @@
+# Hugo Config for hg.gmyrland.com
+# Glen Myrland
+
+baseURL = "https://hg.gmyrland.com/"
+title = "Hang Glide"
+
+# for smart copyright line, leave this blank and check [params.copyright]
+copyright = ""
+
+theme = "minimo"
+
+disqusShortname = "hg-gmyrland-com"
+googleAnalytics = "UA-83342904-5"
+
+Paginate = 10
+preserveTaxonomyNames = true
+
+enableRobotsTXT = false # generate robots.txt
+
+# Syntax Highlighting ( https://gohugo.io/content-management/syntax-highlighting/ )
+pygmentsCodefences = true
+
+enableEmoji = true
+
+# Missing translations will default to this content language
+defaultContentLanguage = "en"
+
+[params.info]
+description = "Glen Myrland's Hang Gliding"
+title404 = "You've missed the landing zone"
+
+[params.assets]
+favicon = "favicon.ico"
+customCSS = ["css/custom.css"]
+customJS = ["js/custom.js"]
+gopher = "" # used in 404 template ( Generator: https://gopherize.me )
+
+[params.copyright]
+prefix = ""
+holder = "gmyrland"
+startYear = "2018"
+suffix = ""
+
+[params.settings]
+# date & time format: https://golang.org/pkg/time/
+dateFormat = "2006, Jan 02"
+listDateFormat = "2006, Jan 02"
+archiveDateFormat = "Jan 02"
+hideEntryNavigation = ["page"] # boolean / array of sections
+hideSocialMenu = false
+showReadingTime = true
+taxonomyCloudShuffle = true
+accentColor = "#ee3939"
+
+[params.sidebar]
+enable = true
+
+[params.widgets]
+homepage = ["recent_posts"]
+sidebar = ["about","taxonomy_cloud"]
+
+[params.opengraph.facebook]
+admins = [] # array of Facebook IDs
+appID = ""
+pageID = ""
+
+[params.opengraph.twitter]
+page = "" # Twitter page username
+
+[params.seo]
+# Title Separator: - – — · • * ⋆ | ~ « » < >
+titleSeparator = "•"
+
+[params.social]
+email = "glenmyrland@gmail.com"
+github = "gmyrland"
+instagram = "gmyrland"
+linkedin = "gmyrland"
+
+[params.comments]
+enable = true
+
+[params.comments.staticman]
+enable = true
+apiEndpoint = "https://api.staticman.net/v2/entry"
+maxDepth = 2
+
+[params.comments.staticman.github]
+username = "gmyrland"
+repository = "hg.gmyrland.com"
+branch = "master"
+
+[taxonomies]
+author = "authors"
+category = "categories"
+series = "series"
+tag = "tags"
+
+[permalinks]
+page = "/:slug/"
+
+[[menu.main]]
+# name = "Github"
+# weight = -10
+# identifier = "repository"
+# url = "https://github.com/gmyrland/hg.gmyrland.com"
+
+[blackfriday]
+hrefTargetBlank = true
+
+[languages]
+# edit this block for your own language
+[languages.en]
+lang = "en"
+languageName = "English"
+weight = 1
