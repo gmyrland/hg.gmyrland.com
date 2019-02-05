@@ -3,6 +3,7 @@ date: 2019-02-03T05:00:00+05:00
 lastmod: 2019-02-03T05:00:00+05:00
 title: Exploring the Data
 authors: ["gmyrland"]
+mathjax: true
 categories:
   - features
 tags:
@@ -30,7 +31,7 @@ Sample raw data is shown below.
 ...
 ```
 
-Developing a thermal predictor will involve deriving an underlying model of the flight characteristics of the glider from this data, as well as other sources of information (such third party APIs for weather conditions and topographical information).
+Developing a thermal predictor will involve deriving an underlying model of the flight characteristics of the glider from this data, as well as other sources of information (such as third party APIs for weather conditions and topographical information).
 This understanding will then be required to develop a model for thermal behaviour based on the various in-flight interactions with thermals contained within the dataset.
 
 To begin to explore the data, I'll start by looking at a specific flight to see what sort of information can be determined from the vario data.
@@ -42,7 +43,7 @@ On this flight, there was a relatively strong wind from west-south-west, and I e
 The long line from east to west indicates the tow, which involved a ground-based winch on the west end of the flight field.
 ![3d View](/data/img/rgl.png)
 
-Since the data contains both the altitude and a timestamp, it is straight-forward to plot altitude (above sea level) versus time to see the altitude profile of the flight.
+Since the data contains both the altitude and a timestamp, it is straight-forward to plot altitude versus time to see the altitude profile of the flight.
 
 ![Altitude v Time](/data/img/explore_alt_v_time.png)
 
@@ -62,11 +63,13 @@ When flying on curving path (such as circling in a thermal), the actual distance
 ![Altitude v Distance](/data/img/explore_alt_v_distance.png)
 
 This plot is largely the same as the previous one, but is "stretched" or "squished" horizontally based on the speed of the glider.
-Since we now know distance, we can determine the ground speed between adjacent data points using *speed = distance / time*.
+Since we now know distance, we can determine the ground speed between adjacent data points using,
+
+\\[ speed = distance / time \\].
 
 ![Speed v Time](/data/img/explore_speed_v_time.png)
 
-This plot shows an initial tow speed over approximately 8 m/s (29 kph).
+This plot shows an initial tow speed of approximately 8 m/s (29 kph).
 It then shows something interesting -- a series of peaks and troughs, ranging between approximately 6 to 18 m/s (22 to 64 kph).
 
 These patterns indicate that the glider is circling.
@@ -77,7 +80,9 @@ The plots below show two views of the same portion of the flight, with ground sp
 
 The vertical height between the peaks and troughs (i.e. the difference in speed) is related to the speed of the wind.
 The higher the wind speed, the more pronounced this effect will be.
-The wind speed will be (approximately) given by: *(speed_max - speed_min) / 2*.
+The wind speed will be (approximately) given by,
+
+\\[ (speed\_{max}-speed\_{min})/2 \\]
 
 Knowing the wind speed will be incredibly useful in understanding the glider flight characteristics.
 Based on the findings above, it seems likely that it will be possible to estimate the wind speed from the vario flight data.
@@ -102,7 +107,7 @@ The distance from the center of the plot indicates ground speed, and the angle f
 This is cool stuff! The plot shows a circle, which is offset from the center of the plot (up and to the right).
 This is because the glider is circling while being pushed along by the wind, resulting in the translation of all of the points.
 Assuming the glider's circling is reasonably uniform, the center of this circle gives both the speed and direction of the wind.
-(The size of the circle is related to the speed of the glider, and the "thickness" of the circular band is related to the range of airspeeds encountered during the portion of the glide.)
+(The radius of the circle is related to the speed of the glider, and the "thickness" of the circular band is related to the range of airspeeds encountered during that portion of the glide.)
 
 The plot above suggests that a few smooth circles should be sufficient to determine current wind speed and direction at a given altitude with reasonable accuracy.
 It is worth noting that hang-gliding is a sport that involves lots of flying in circles.
@@ -113,16 +118,16 @@ A method that many varios use when determining whether to provide the audible "y
 The purpose of this is to avoid confusing real thermals with "stick thermals", which is when a glider pilot trades speed for altitude by pushing out on the control bar.
 The idea is that the total energy (kinetic and potential) of the glider is considered, so that trading altitude for speed or speed for altitude is accounted for.
 
-*E_total = E_potential + E_kinetic = mgh + 1/2mV^2*
+\\[ E\_{total} = E\_{potential} + E\_{kinetic} = mgh + \frac{1}{2}mV^2 \\]
 
-Since gliders are not powered, they trade altitude (*E_potential*) for speed (*E_kinetic*), some of which is continually lost to drag.
-So in the absence of any external forces, *E_total* will gradually decrease despite any trade-offs between *E_potential* and *E_kinetic*.
-Any increase in *E_total*, then, must be from external force (e.g., an increase in *E_potential* from a rising thermal, or an increase in *E_kinetic* from getting hit by an airplane).
+Since gliders are not powered, they trade altitude (\\(E\_{potential}\\)) for speed (\\(E\_{kinetic}\\)), some of which is continually lost to drag.
+So in the absence of any external forces, \\(E\_{total}\\) will gradually decrease despite any trade-offs between \\(E\_{potential}\\) and \\(E\_{kinetic}\\).
+Any increase in \\(E\_{total}\\), then, must be from external force (e.g., an increase in \\(E\_{potential}\\) from a rising thermal, or an increase in \\(E\_{kinetic}\\) from getting hit by an airplane).
 Using total energy is a more accurate way to determine the presence of thermals than the change in altitude alone.
 
-The *V* in the equation above is for airspeed.
+The \\(V\\) in the equation above is for airspeed.
 However, we haven't solved for that yet, so I'll cheat a little and use ground speed.
-Further, to avoid the need to calculate mass term *m*, I'll divide it out of the equation to use the specific energy (energy per unit mass).
+Further, to avoid the need to calculate mass term \\(m\\), I'll divide it out of the equation to use the specific energy (energy per unit mass).
 Doing this gives the plot below.
 
 ![Specific Energy v Time](/data/img/explore_specific_energy_v_time.png)
@@ -150,8 +155,8 @@ Next steps will include:
 
 - Continue to develop an understanding of the glider flight characteristics.
 - Develop ways to characterize different flight modes, for instance, under-tow or gliding. When using the data to develop a model of flight behaviour, it will be
-    important extract only the portions where the glider is in free flight (i.e. not under tow). Extracting the relevant flight data will need to be done
+    important to extract only the portions where the glider is in free flight (i.e. not under tow). Extracting the relevant flight data will need to be done
     programmatically so that it can scale for any number of flight data logs.
 - Build parsers for additional data formats, as not all varios output the same file format. Further, there are many additional flights were I have cellphone
-    sensor dump data. This inlcudes time, GPS location, and barometric pressure (which can be used to approximate altitude). Knowing the quality of this data will be useful since a
+    sensor dump data. This includes time, GPS location, and barometric pressure (which can be used to approximate altitude). Knowing the quality of this data will be useful since a
     cellphone app would be a good method for deploying an in-flight recommendation system for finding thermals.
