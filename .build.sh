@@ -11,5 +11,5 @@ sudo chown -R glen:glen public/
 #aws s3 sync public/ s3://hg.gmyrland.com-test/ --size-only --delete # test
 aws s3 sync public/ s3://hg.gmyrland.com/ --delete # prod
 
-# add robots.txt to test
-aws s3 cp layouts/robots.txt s3://hg.gmyrland.com-test/robots.txt
+# add restrictive robots.txt to test
+aws s3 cp layouts/robots-test.txt s3://hg.gmyrland.com-test/robots.txt

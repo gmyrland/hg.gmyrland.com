@@ -15,7 +15,7 @@ googleAnalytics = "UA-83342904-5"
 Paginate = 10
 preserveTaxonomyNames = true
 
-enableRobotsTXT = false # generate robots.txt
+enableRobotsTXT = true # generate robots.txt
 
 # Syntax Highlighting ( https://gohugo.io/content-management/syntax-highlighting/ )
 pygmentsCodefences = true
